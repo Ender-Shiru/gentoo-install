@@ -247,7 +247,7 @@ function format() {
 	local type="${arguments[type]}"
 	if [[ "$type" == "btrfs" ]]; then
 		USED_BTRFS=true
-	elif [[ "$type" == "xfs"]] then
+	elif [[ "$type" == "xfs"]];
 		USED_XFS=true
 	fi
 
