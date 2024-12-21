@@ -152,8 +152,6 @@ function generate_initramfs() {
 		&& modules+=("btrfs")
 	[[ $USED_ZFS == "true" ]] \
 		&& modules+=("zfs")
-	[[ $USED_XFS == "true" ]] \
-		&& modules+=("xfs")
 
 	local kver
 	kver="$(readlink /usr/src/linux)" \
