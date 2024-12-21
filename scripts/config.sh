@@ -247,7 +247,7 @@ function format() {
 	local type="${arguments[type]}"
 	if [[ "$type" == "btrfs" ]]; then
 		USED_BTRFS=true
-	elif [[ "$type" == "xfs"]]; then
+	elif [[ "$type" == "xfs"]] then
 		USED_XFS=true
 	fi
 
@@ -300,7 +300,7 @@ function expand_ids() {
 #   swap=<size>           Create a swap partition with given size, or no swap at all if set to false.
 #   type=[efi|bios]       Selects the boot type. Defaults to efi if not given.
 #   luks=[true|false]     Encrypt root partition. Defaults to false if not given.
-#   root_fs=[ext4|btrfs]  Root filesystem. Defaults to ext4 if not given.
+#   root_fs=[ext4|xfs|btrfs]  Root filesystem. Defaults to ext4 if not given.
 function create_classic_single_disk_layout() {
 	local known_arguments=('+swap' '?type' '?luks' '?root_fs')
 	local extra_arguments=()
