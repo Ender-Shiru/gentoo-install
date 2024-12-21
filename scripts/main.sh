@@ -315,6 +315,8 @@ function install_kernel() {
 	einfo "Installing linux-firmware"
 	echo "sys-kernel/linux-firmware linux-fw-redistributable no-source-code" >> /etc/portage/package.license \
 		|| die "Could not write to /etc/portage/package.license"
+	echo 'ACCEPT_LICENSE="@FREE @BINARY-REDISTRIBUTABLE' >> /etc/portage/make.conf \
+		|| die "Could not write to /etc/portage/make.conf"
 	try emerge --verbose linux-firmware intel-microcode
 }
 
