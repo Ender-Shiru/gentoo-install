@@ -93,6 +93,10 @@ function configure_portage() {
 	touch_or_die 0644 "/etc/portage/package.keywords/zz-autounmask"
 	touch_or_die 0644 "/etc/portage/package.license"
 
+	# Configure cpuflags
+	try emerge --verbose --oneshot cpuid2cpuflags
+	try echo "*/* $(cpuid2cpuflags)" > /etc/portage/package.use/00cpu-flags
+
 	if [[ $SELECT_MIRRORS == "true" ]]; then
 		einfo "Temporarily installing mirrorselect"
 		try emerge --verbose --oneshot app-portage/mirrorselect
@@ -105,7 +109,7 @@ function configure_portage() {
 	fi
 
 	if [[ $ENABLE_BINPKG == "true" ]]; then
-		echo 'FEATURES="getbinpkg"' >> /etc/portage/make.conf
+		echo 'FEATURES="getbinpkg binpkg-request-signature"' >> /etc/portage/make.conf
   		getuto
     		chmod 644 /etc/portage/gnupg/pubring.kbx
 	fi
@@ -311,7 +315,7 @@ function install_kernel() {
 	einfo "Installing linux-firmware"
 	echo "sys-kernel/linux-firmware linux-fw-redistributable no-source-code" >> /etc/portage/package.license \
 		|| die "Could not write to /etc/portage/package.license"
-	try emerge --verbose linux-firmware
+	try emerge --verbose linux-firmware intel-microcode
 }
 
 function add_fstab_entry() {
