@@ -406,6 +406,7 @@ function check_wanted_programs() {
 		pacman_packages=(
 			[ntpd]=ntp
 			[zfs]=""
+			[xfs]=xfsprogs
 		)
 		elog "Detected pacman package manager."
 		if ask "Do you want to install all missing programs automatically?"; then

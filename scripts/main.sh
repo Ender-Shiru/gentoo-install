@@ -152,6 +152,8 @@ function generate_initramfs() {
 		&& modules+=("btrfs")
 	[[ $USED_ZFS == "true" ]] \
 		&& modules+=("zfs")
+	[[ $USED_XFS == "true" ]] \
+		&& modules+=("xfs")
 
 	local kver
 	kver="$(readlink /usr/src/linux)" \
@@ -442,6 +444,12 @@ EOF
 	if [[ $USED_BTRFS == "true" ]]; then
 		einfo "Installing btrfs-progs"
 		try emerge --verbose sys-fs/btrfs-progs
+	fi
+
+	# Install xfsprogs if we used xfs
+	if [[ $USED_XFS == "true" ]]; then
+		einfo "Installing xfsprogs"
+		try emerge --verbose sys-fs/xfsprogs
 	fi
 
 	try emerge --verbose dev-vcs/git

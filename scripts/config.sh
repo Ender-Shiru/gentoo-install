@@ -25,6 +25,8 @@ USED_LUKS=false
 USED_ZFS=false
 # Flag to track usage of btrfs
 USED_BTRFS=false
+# Flag to track usage of xfs
+USED_XFS=false
 # Flag to track usage of encryption
 USED_ENCRYPTION=false
 # Flag to track whether partitioning or formatting is forbidden
@@ -245,6 +247,8 @@ function format() {
 	local type="${arguments[type]}"
 	if [[ "$type" == "btrfs" ]]; then
 		USED_BTRFS=true
+	elif [[ "$type" == "xfs"]]; then
+		USED_XFS=true
 	fi
 
 	DISK_ACTIONS+=("action=format" "$@" ";")

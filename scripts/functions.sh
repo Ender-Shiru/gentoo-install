@@ -90,6 +90,8 @@ function prepare_installation_environment() {
 		&& wanted_programs+=(mdadm)
 	[[ $USED_LUKS == "true" ]] \
 		&& wanted_programs+=(cryptsetup)
+	[[ $USED_XFS == "true" ]] \
+		&& wanted_programs+=(xfs)
 
 	# Check for existence of required programs
 	check_wanted_programs "${wanted_programs[@]}"
