@@ -25,6 +25,8 @@ USED_LUKS=false
 USED_ZFS=false
 # Flag to track usage of btrfs
 USED_BTRFS=false
+# Flag to track usage of xfs
+USED_XFS=false
 # Flag to track usage of encryption
 USED_ENCRYPTION=false
 # Flag to track whether partitioning or formatting is forbidden
@@ -232,7 +234,7 @@ function create_dummy() {
 
 # Named arguments:
 # id:     Id of the device / partition created earlier
-# type:   One of (bios, efi, swap, ext4)
+# type:   One of (bios, efi, swap, ext4, xfs)
 # label:  The label for the formatted disk
 function format() {
 	local known_arguments=('+id' '+type' '?label')
@@ -240,11 +242,13 @@ function format() {
 	declare -A arguments; parse_arguments "$@"
 
 	verify_existing_id id
-	verify_option type bios efi swap ext4 btrfs
+	verify_option type bios efi swap ext4 btrfs xfs
 
 	local type="${arguments[type]}"
 	if [[ "$type" == "btrfs" ]]; then
 		USED_BTRFS=true
+	elif [[ "$type" == "xfs" ]]; then
+		USED_XFS=true
 	fi
 
 	DISK_ACTIONS+=("action=format" "$@" ";")
@@ -296,7 +300,7 @@ function expand_ids() {
 #   swap=<size>           Create a swap partition with given size, or no swap at all if set to false.
 #   type=[efi|bios]       Selects the boot type. Defaults to efi if not given.
 #   luks=[true|false]     Encrypt root partition. Defaults to false if not given.
-#   root_fs=[ext4|btrfs]  Root filesystem. Defaults to ext4 if not given.
+#   root_fs=[ext4|xfs|btrfs]  Root filesystem. Defaults to ext4 if not given.
 function create_classic_single_disk_layout() {
 	local known_arguments=('+swap' '?type' '?luks' '?root_fs')
 	local extra_arguments=()
@@ -342,6 +346,9 @@ function create_classic_single_disk_layout() {
 	elif [[ $root_fs == "ext4" ]]; then
 		DISK_ID_ROOT_TYPE="ext4"
 		DISK_ID_ROOT_MOUNT_OPTS="defaults,noatime,errors=remount-ro,discard"
+	elif [[ $root_fs == "xfs" ]]; then
+		DISK_ID_ROOT_TYPE="xfs"
+		DISK_ID_ROOT_MOUNT_OPTS="defaults,noatime"
 	else
 		die "Unsupported root filesystem type"
 	fi
@@ -498,6 +505,9 @@ function create_raid0_luks_layout() {
 	elif [[ $root_fs == "ext4" ]]; then
 		DISK_ID_ROOT_TYPE="ext4"
 		DISK_ID_ROOT_MOUNT_OPTS="defaults,noatime,errors=remount-ro,discard"
+	elif [[ $root_fs == "xfs" ]]; then
+		DISK_ID_ROOT_TYPE="xfs"
+		DISK_ID_ROOT_MOUNT_OPTS="defaults,noatime"
 	else
 		die "Unsupported root filesystem type"
 	fi
@@ -562,6 +572,9 @@ function create_raid1_luks_layout() {
 	elif [[ $root_fs == "ext4" ]]; then
 		DISK_ID_ROOT_TYPE="ext4"
 		DISK_ID_ROOT_MOUNT_OPTS="defaults,noatime,errors=remount-ro,discard"
+	elif [[ $root_fs == "xfs" ]]; then
+		DISK_ID_ROOT_TYPE="xfs"
+		DISK_ID_ROOT_MOUNT_OPTS="defaults,noatime"
 	else
 		die "Unsupported root filesystem type"
 	fi

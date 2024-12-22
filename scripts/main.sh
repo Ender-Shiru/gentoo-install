@@ -444,6 +444,12 @@ EOF
 		try emerge --verbose sys-fs/btrfs-progs
 	fi
 
+	# Install xfsprogs if we used xfs
+	if [[ $USED_XFS == "true" ]]; then
+		einfo "Installing xfsprogs"
+		try emerge --verbose sys-fs/xfsprogs
+	fi
+
 	try emerge --verbose dev-vcs/git
 
 	# Install zfs kernel module and tools if we used zfs

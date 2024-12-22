@@ -4,7 +4,7 @@ This project aspires to be your favourite way to install gentoo.
 It aims to provide a smooth installation experience, both for beginners and experts.
 You may configure it by using a menuconfig-inspired interface or simply via a config file.
 
-It supports the most common disk layouts, different file systems like ext4, ZFS and btrfs as well
+It supports the most common disk layouts, different file systems like ext4, xfs, ZFS and btrfs as well
 as additional layers such as LUKS or mdraid. It also supports both EFI (recommended) and BIOS boot,
 and can be used with systemd or OpenRC as the init system. SSH can also be configured to allow using an automation framework
 like [Ansible](https://github.com/ansible/ansible) or [Fora](https://github.com/oddlama/fora) to automate beyond system installation.
@@ -33,7 +33,7 @@ Afterwards, proceed with the following steps:
 
 ```bash
 pacman -Sy git  # (Archlinux) Install git in live environment, then clone:
-git clone "https://github.com/Ender-Shiru/gentoo-install"
+git clone "https://github.com/Ender-Shiru/gentoo-install" # add '-b xfs-progs' to clone this branch with xfs root support
 cd gentoo-install
 ./configure     # configure to your liking, save as gentoo.conf
 ./install       # begin installation
