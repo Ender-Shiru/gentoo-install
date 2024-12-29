@@ -5,7 +5,7 @@ virt-install \
 	--name=vm-gentoo \
 	--vcpus=2 \
 	--memory=2048 \
-	--cdrom=/vm/images/archlinux-2021.05.01-x86_64.iso \
+	--cdrom=/vm/images/archlinux-2024.12.01-x86_64.iso \
 	--disk path=/vm/disks/disk-vm-gentoo.disk,size=25 \
 	--boot uefi \
 	--os-variant=gentoo \
